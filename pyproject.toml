@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cvprlab-python"
+version = "0.1.0"
+description = "CVPR labs in Python"
+authors = ["frankcholula <lu.phrank@gmail.com>"]
+readme = "README.md"
+packages = [{include = "cvprlab_python"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.0"
+scipy = "^1.14.1"
+matplotlib = "^3.9.2"
+opencv-python = "^4.10.0.84"
+ipykernel = "^6.29.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
