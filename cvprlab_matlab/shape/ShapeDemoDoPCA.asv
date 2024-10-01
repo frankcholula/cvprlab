@@ -1,0 +1,25 @@
+%% EEE3032 - Computer Vision and Pattern Recognition (ee3.cvpr)
+%%
+%% ShapeDemoDoPCA.m
+%% Helper function for ShapeDemo.  Accepts observations in feature space
+%% and performs PCA to determine variation subspace
+%% This is a simplistic 'walk round the edge pixels' method for teaching
+%% purposes and more sophisticated methods exist.  In particular any spurs
+%% on the region will break this approach, and so the mask should be
+%% appropriately filtered before invoking this function.
+%%
+%% It is assumed only one connected component exists in the mask - if
+%% there are more you should split the connected components into separate
+%% masks and call this function for each of them
+%%
+%%
+%% Usage:  [cc, startpoint] = Chaincode (mask)
+%%
+%% IN:  mask         - The binary mask, containing a single filled region
+%%
+%% OUT: cc           - The chain code string [0=N,1=NE...7=NW]
+%%      startpoint   - The starting pixel from which to decode the chain
+%%
+%% (c) John Collomosse 2010  (J.Collomosse@surrey.ac.uk)
+%% Centre for Vision Speech and Signal Processing (CVSSP)
+%% University of Surrey, United Kingdom

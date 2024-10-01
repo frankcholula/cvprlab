@@ -1,0 +1,30 @@
+%% EEE3032 - Computer Vision and Pattern Recognition (ee3.cvpr)
+%%
+%% BuildConfusionMatrix.m
+%% Builds a confusion matrix from classification and ground truth data
+%% Confusion matrix to be read row-by-row for each ground truth category
+%% i.e. row 1 shows the classifications for each 
+%% projected into that space and returned.
+%%
+%% Usage:  observations = ShapeDemoDoPCA (observations)
+%%
+%% IN:  observations - Input observations
+%%
+%% OUT: observations - Output (projected) observations after PCA
+%%
+%% (c) John Collomosse 2010  (J.Collomosse@surrey.ac.uk)
+%% Centre for Vision Speech and Signal Processing (CVSSP)
+%% University of Surrey, United Kingdom
+
+function C=BuildConfusionMatrix(classification, ground_truth, number_categories)
+
+C=zeros(number_categories,number_categories);
+
+for gt=1:number_categories
+    this_cat_querycount=sum(ground_truth==gt);
+    clsidx=classification(find(ground_truth==gt));
+    for cls=1:number_categories
+        C(gt,cls)=sum(clsidx==cls);        
+    end
+    C(gt,:)=C(gt,:)./norm(C(gt,:));
+end
