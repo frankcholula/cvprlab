@@ -1,7 +1,7 @@
 
 import numpy as np
 
-def extractRandom(img):
+def extract_random(img):
     # Generate a random row vector with 30 elements
     F = np.random.rand(1, 30)
     # Returns a row [rand rand .... rand] representing an image descriptor

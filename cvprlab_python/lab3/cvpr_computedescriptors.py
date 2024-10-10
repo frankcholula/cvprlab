@@ -2,8 +2,9 @@ import os
 import numpy as np
 import cv2
 import scipy.io as sio
+from extract_random import extract_random
 
-DATASET_FOLDER = 'MSRC_ObjCategImageDatabase_v2'
+DATASET_FOLDER = '../MSRC_ObjCategImageDatabase_v2'
 OUT_FOLDER = 'descriptors'
 OUT_SUBFOLDER = 'globalRGBhisto'
 
