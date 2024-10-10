@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 import scipy.io as sio
 
-DATASET_FOLDER = 'c:/visiondemo/cwsolution/MSRC_ObjCategImageDatabase_v2'
-OUT_FOLDER = 'c:/visiondemo/cwsolution/descriptors'
+DATASET_FOLDER = 'MSRC_ObjCategImageDatabase_v2'
+OUT_FOLDER = 'descriptors'
 OUT_SUBFOLDER = 'globalRGBhisto'
 
 # Ensure the output directory exists
