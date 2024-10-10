@@ -24,4 +24,5 @@ for filename in os.listdir(os.path.join(DATASET_FOLDER, 'Images')):
         
         # Save the descriptor to a .mat file
         sio.savemat(fout, {'F': F})
+        
 
