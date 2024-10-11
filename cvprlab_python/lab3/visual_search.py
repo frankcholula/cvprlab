@@ -5,6 +5,7 @@ from extractors import Extractors
 from matplotlib import pyplot as plt
 from typing import Dict, List, Tuple
 import random
+import streamlit as st
 
 DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2"
 DESCRIPTOR_FOLDER = "descriptors"
