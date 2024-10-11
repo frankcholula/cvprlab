@@ -21,7 +21,7 @@ class Extractors:
         return F
     
     @staticmethod
-    def extract_color_descriptor(img):
+    def extract_rgb(img):
         """
         Compute the average red, green, and blue values as a basic color descriptor.
         
