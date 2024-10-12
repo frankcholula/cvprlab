@@ -106,15 +106,26 @@ class ImageRetriever:
 
 
 def main():
+    st.title("Visual Search Engine")
     # extract Descriptors
     extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
     extractor.extract()
     img2descriptors = extractor.get_image_descriptor_mapping()
+    
+    image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
+    selected_image = st.selectbox("Choose an image...", image_files)
+    st.write("Query Image:")
+    st.image(os.path.join(DATASET_FOLDER, 'Images', selected_image), use_column_width=True)
 
     # retrieve based on the img2descriptors dict
-    retriever = ImageRetriever(img2descriptors) 
-    random_image = random.choice(list(img2descriptors.keys()))
-    similar_images = retriever.retrieve(random_image)
+    retriever = ImageRetriever(img2descriptors)
+    similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
+    st.write("Top 5 similar images:")
+    cols = st.column(5)
+    for img_path in similiar_images:
+        cols.image(img_path, use_column_width=True)
+    # random_image = random.choice(list(img2descriptors.keys()))
+    # similar_images = retriever.retrieve(random_image)
 
 if __name__ == "__main__":
     main()
