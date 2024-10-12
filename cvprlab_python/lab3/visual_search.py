@@ -113,20 +113,23 @@ def main():
     img2descriptors = extractor.get_image_descriptor_mapping()
     
     image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
-    selected_image = st.selectbox("Choose an image...", image_files)
+    cols = st.columns([3,1])
+    selected_image = cols[0].selectbox("Choose an Image...", image_files)
+    cols[1].markdown("<div style='width: 1px; height: 28px'></div>", unsafe_allow_html=True)
+    if cols[1].button("I'm Feeling Lucky"):
+        selected_image = random.choice(image_files)
+    
     st.write("Query Image:")
     st.image(os.path.join(DATASET_FOLDER, 'Images', selected_image), use_column_width=True)
 
     # retrieve based on the img2descriptors dict
     retriever = ImageRetriever(img2descriptors)
     similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
+
     st.write("Top 5 similar images:")
     cols = st.columns(5)
     for col, img_path in zip(cols, similiar_images):
         col.image(img_path, use_column_width=True)
-
-    # random_image = random.choice(list(img2descriptors.keys()))
-    # similar_images = retriever.retrieve(random_image)
 
 if __name__ == "__main__":
     main()
