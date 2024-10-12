@@ -113,7 +113,7 @@ def main():
     img2descriptors = extractor.get_image_descriptor_mapping()
     
     image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
-    cols = st.columns([3,1])
+    cols = st.columns([3.5,1])
     selected_image = cols[0].selectbox("Choose an Image...", image_files)
     cols[1].markdown("<div style='width: 1px; height: 28px'></div>", unsafe_allow_html=True)
     if cols[1].button("I'm Feeling Lucky"):
