@@ -14,6 +14,7 @@ opencv-python = "^4.10.0.84"
 ipykernel = "^6.29.5"
 numpy = "^2.1.1"
 streamlit = "^1.39.0"
+opencv-python-headless = "^4.10.0.84"
 
 
 [tool.poetry.group.dev.dependencies]
