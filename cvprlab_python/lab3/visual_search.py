@@ -106,7 +106,7 @@ class ImageRetriever:
 
 
 def main():
-    st.title("Visual Search Engine")
+    st.title("Visual Search Engine 👀")
     # extract Descriptors
     extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
     extractor.extract()
