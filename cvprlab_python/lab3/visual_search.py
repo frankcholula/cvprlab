@@ -121,9 +121,10 @@ def main():
     retriever = ImageRetriever(img2descriptors)
     similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
     st.write("Top 5 similar images:")
-    cols = st.column(5)
-    for img_path in similiar_images:
-        cols.image(img_path, use_column_width=True)
+    cols = st.columns(5)
+    for col, img_path in zip(cols, similiar_images):
+        col.image(img_path, use_column_width=True)
+
     # random_image = random.choice(list(img2descriptors.keys()))
     # similar_images = retriever.retrieve(random_image)
 
