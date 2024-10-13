@@ -6,7 +6,6 @@ from firebase_admin import storage
 
 # Replace with the path to your downloaded JSON key file
 firebase_secrets = st.secrets["firebase"]
-storage_bucket = firebase_secrets["storage_bucket"]
 cred = credentials.Certificate({
     "type": firebase_secrets["type"],
     "project_id": firebase_secrets["project_id"],
@@ -21,7 +20,7 @@ cred = credentials.Certificate({
 })
 
 firebase_admin.initialize_app(cred, {
-    'storageBucket': storage_bucket
+    'storageBucket': firebase_secrets["storageBucket"]
 })
 
 bucket = storage.bucket()
