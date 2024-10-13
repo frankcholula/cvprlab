@@ -166,4 +166,5 @@ cython_debug/
 
 # Image Dataset
 MSRC_ObjCategImageDatabase_v2/
+MSRC_ObjCategImageDatabase_v2_local/
 descriptors/
