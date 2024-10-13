@@ -6,11 +6,8 @@ from matplotlib import pyplot as plt
 from typing import Dict, List, Tuple
 import random
 import streamlit as st
-from connection import FirebaseConnection
+from data_sources import FirebaseConnection
 import time
-
-DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2"
-DESCRIPTOR_FOLDER = "descriptors"
 
 class DescriptorExtractor:
     def __init__(self, dataset_folder: str, descriptor_folder: str):
@@ -106,33 +103,9 @@ class ImageRetriever:
         plt.show()
         print("Distances: \n", distances)
 
-def check_local_dir(local_image_directory, file_count_check=10):
-    if os.path.exists(local_image_directory):
-        local_files = [f for f in os.listdir(local_image_directory) if os.path.isfile(os.path.join(local_image_directory, f))]
-        if len(local_files) >= file_count_check:
-            result = st.success(f"Local image directory found with more than {file_count_check} files. Skipping download.", icon="👌")
-            return result, True
-        else:
-            result = st.warning(f"Local image directory found with fewer than {file_count_check} files. Proceeding with download.", icon="🚨")
-            return result, False
-    else:
-        result = st.warning("No local image directory found. Proceeding with download.", icon="🚨")
-    return result, False
 
-def download_images(blobs, local_image_directory, max_download=5):
-    progress_bar = st.progress(0)
-    total_files = min(len(blobs), max_download)
-    blobs = [blob for blob in blobs if not blob.name.endswith('/')]
-    for index, blob in enumerate(blobs[:max_download]):
-        local_path = os.path.join(local_image_directory, os.path.basename(blob.name))
-        blob.download_to_filename(local_path)
-        progress_text = "Downloading Images: {}/{}".format(index + 1, total_files)
-        progress_bar.progress((index + 1) / total_files, text=progress_text)
-    time.sleep(1)
-    progress_bar.empty()
-    st.success("Download complete!", icon="🎉")
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def load_data():
     # Initialize Firebase connection
     firebase_conn = FirebaseConnection()
@@ -143,49 +116,49 @@ def load_data():
 
     # Create a local directory to store images
     local_image_dir = "MSRC_ObjCategImageDatabase_v2_local/Images"
-    required_file_count = 5
-    message, success = check_local_dir(local_image_dir, required_file_count)
+    required_file_count = 10
+    message, success = firebase_conn.check_local_dir(local_image_dir, required_file_count)
     if success:
+        time.sleep(5)
+        message.empty()
         return
     else:
         os.makedirs(local_image_dir, exist_ok=True)
         blobs = list(bucket.list_blobs(prefix=image_directory))
-
-        download_images(blobs, local_image_dir, max_download=required_file_count)
-    time.sleep(1)
+        firebase_conn.download_images(blobs, local_image_dir, max_download=required_file_count)
+    time.sleep(5)
     message.empty()
 
 
 def main():
     load_data()
-    # Load the data from Firebase
-    # DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2"
-    # DESCRIPTOR_FOLDER = "descriptors"
 
-    # st.title("Visual Search Engine 👀")
-    # # extract Descriptors
-    # extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
-    # extractor.extract()
-    # img2descriptors = extractor.get_image_descriptor_mapping()
+    DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2_local"
+    DESCRIPTOR_FOLDER = "descriptors"
+    st.title("Visual Search Engine 👀")
+    # extract Descriptors
+    extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
+    extractor.extract()
+    img2descriptors = extractor.get_image_descriptor_mapping()
     
-    # image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
-    # cols = st.columns([3.5,1])
-    # selected_image = cols[0].selectbox("Choose an Image...", image_files)
-    # cols[1].markdown("<div style='width: 1px; height: 28px'></div>", unsafe_allow_html=True)
-    # if cols[1].button("I'm Feeling Lucky"):
-    #     selected_image = random.choice(image_files)
+    image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
+    cols = st.columns([3.5,1])
+    selected_image = cols[0].selectbox("Choose an Image...", image_files)
+    cols[1].markdown("<div style='width: 1px; height: 28px'></div>", unsafe_allow_html=True)
+    if cols[1].button("I'm Feeling Lucky"):
+        selected_image = random.choice(image_files)
     
-    # st.write("Query Image:")
-    # st.image(os.path.join(DATASET_FOLDER, 'Images', selected_image), use_column_width=True)
+    st.write("Query Image:")
+    st.image(os.path.join(DATASET_FOLDER, 'Images', selected_image), use_column_width=True)
 
-    # # retrieve based on the img2descriptors dict
-    # retriever = ImageRetriever(img2descriptors)
-    # similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
+    # retrieve based on the img2descriptors dict
+    retriever = ImageRetriever(img2descriptors)
+    similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
 
-    # st.write("Top 5 similar images:")
-    # cols = st.columns(5)
-    # for col, img_path in zip(cols, similiar_images):
-    #     col.image(img_path, use_column_width=True)
+    st.write("Top 5 similar images:")
+    cols = st.columns(5)
+    for col, img_path in zip(cols, similiar_images):
+        col.image(img_path, use_column_width=True)
 
 if __name__ == "__main__":
     main()
