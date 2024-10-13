@@ -125,7 +125,9 @@ def load_data():
     else:
         os.makedirs(local_image_dir, exist_ok=True)
         blobs = list(bucket.list_blobs(prefix=image_directory))
-        firebase_conn.download_images(blobs, local_image_dir, max_download=required_file_count)
+        status = firebase_conn.download_images(blobs, local_image_dir, max_download=required_file_count)
+        time.sleep(3)
+        status.empty()
     time.sleep(3)
     message.empty()
 

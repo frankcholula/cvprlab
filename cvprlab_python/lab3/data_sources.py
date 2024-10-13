@@ -53,4 +53,5 @@ class FirebaseConnection:
             progress_bar.progress((index + 1) / total_files, text=progress_text)
         time.sleep(1)
         progress_bar.empty()
-        st.success("Download complete!", icon="🎉")
+        status = st.success("Download complete!", icon="🎉")
+        return status
