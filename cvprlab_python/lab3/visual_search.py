@@ -7,6 +7,7 @@ from typing import Dict, List, Tuple
 import random
 import streamlit as st
 from connection import FirebaseConnection
+import time
 
 DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2"
 DESCRIPTOR_FOLDER = "descriptors"
@@ -105,29 +106,31 @@ class ImageRetriever:
         plt.show()
         print("Distances: \n", distances)
 
-def check_local_dir(local_image_directory, file_count_check=30):
+def check_local_dir(local_image_directory, file_count_check=10):
     if os.path.exists(local_image_directory):
         local_files = [f for f in os.listdir(local_image_directory) if os.path.isfile(os.path.join(local_image_directory, f))]
         if len(local_files) >= file_count_check:
-            st.write(f"Local image directory found with {file_count_check} files. Skipping download.")
-            return True
+            result = st.success(f"Local image directory found with more than {file_count_check} files. Skipping download.", icon="👌")
+            return result, True
         else:
-            st.write(f"Local image directory found but does not contain {file_count_check} files.")
+            result = st.warning(f"Local image directory found with fewer than {file_count_check} files. Proceeding with download.", icon="🚨")
+            return result, False
     else:
-        st.write("No local image directory found.")
-    return False
+        result = st.warning("No local image directory found. Proceeding with download.", icon="🚨")
+    return result, False
 
-def download_images(blobs, local_image_directory, max_download=30):
+def download_images(blobs, local_image_directory, max_download=5):
     progress_bar = st.progress(0)
     total_files = min(len(blobs), max_download)
-    st.write("Downloading images...")
+    blobs = [blob for blob in blobs if not blob.name.endswith('/')]
     for index, blob in enumerate(blobs[:max_download]):
-        if not blob.name.endswith('/'):
-            local_path = os.path.join(local_image_directory, os.path.basename(blob.name))
-            blob.download_to_filename(local_path)
+        local_path = os.path.join(local_image_directory, os.path.basename(blob.name))
+        blob.download_to_filename(local_path)
         progress_text = "Downloading Images: {}/{}".format(index + 1, total_files)
         progress_bar.progress((index + 1) / total_files, text=progress_text)
-    st.write("Download complete!")
+    time.sleep(1)
+    progress_bar.empty()
+    st.success("Download complete!", icon="🎉")
 
 @st.cache_resource
 def load_data():
@@ -140,13 +143,17 @@ def load_data():
 
     # Create a local directory to store images
     local_image_dir = "MSRC_ObjCategImageDatabase_v2_local/Images"
-    required_file_count = 20
-    if check_local_dir(local_image_dir, required_file_count):
+    required_file_count = 5
+    message, success = check_local_dir(local_image_dir, required_file_count)
+    if success:
         return
     else:
         os.makedirs(local_image_dir, exist_ok=True)
         blobs = list(bucket.list_blobs(prefix=image_directory))
-        download_images(blobs, local_image_dir, max_download=30)
+
+        download_images(blobs, local_image_dir, max_download=required_file_count)
+    time.sleep(1)
+    message.empty()
 
 
 def main():
