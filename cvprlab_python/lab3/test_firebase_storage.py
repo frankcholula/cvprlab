@@ -20,7 +20,7 @@ cred = credentials.Certificate({
 })
 
 firebase_admin.initialize_app(cred, {
-    'storageBucket': firebase_secrets["storageBucket"]
+    'storageBucket': firebase_secrets["storage_bucket"]
 })
 
 bucket = storage.bucket()
