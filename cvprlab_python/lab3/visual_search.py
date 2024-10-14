@@ -116,7 +116,7 @@ def load_data():
 
     # Create a local directory to store images
     local_image_dir = "MSRC_ObjCategImageDatabase_v2_local/Images"
-    required_file_count = 100
+    required_file_count = 591
     message, success = firebase_conn.check_local_dir(local_image_dir, required_file_count)
     if success:
         time.sleep(3)
