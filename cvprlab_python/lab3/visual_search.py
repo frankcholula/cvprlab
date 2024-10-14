@@ -72,14 +72,8 @@ class ImageRetriever:
     def retrieve(self, query_img: str, number: int = 10) -> list:
         # Compute distances
         distances = self.compute_distance(query_img)
-        
-        # Get the top 'number' similar images
         top_similar_images = distances[:number]
-        
-        # Display the query image and top similar images
         ImageRetriever.display_images(query_img, top_similar_images, number)
-        
-        # Return the list of top similar images
         return [img_path for _, img_path in top_similar_images]
 
     @staticmethod
@@ -107,13 +101,10 @@ class ImageRetriever:
 
 @st.cache_resource(show_spinner=False)
 def load_data():
-    # Initialize Firebase connection
     firebase_conn = FirebaseConnection()
-    bucket = firebase_conn.get_bucket()
-    
+    bucket = firebase_conn.get_bucket()    
     # Directory in Firebase storage
     image_directory = "MSRC_ObjCategImageDatabase_v2/Images"
-
     # Create a local directory to store images
     local_image_dir = "MSRC_ObjCategImageDatabase_v2_local/Images"
     required_file_count = 591
@@ -138,7 +129,7 @@ def main():
     DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2_local"
     DESCRIPTOR_FOLDER = "descriptors"
     st.title("Visual Search Engine 👀")
-    # extract Descriptors
+    
     extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
     extractor.extract()
     img2descriptors = extractor.get_image_descriptor_mapping()
@@ -153,10 +144,8 @@ def main():
     st.write("Query Image:")
     st.image(os.path.join(DATASET_FOLDER, 'Images', selected_image), use_column_width=True)
 
-    # retrieve based on the img2descriptors dict
     retriever = ImageRetriever(img2descriptors)
     similiar_images = retriever.retrieve(os.path.join(DATASET_FOLDER, 'Images', selected_image), number=5)
-
     st.write("Top 5 similar images:")
     cols = st.columns(5)
     for col, img_path in zip(cols, similiar_images):
