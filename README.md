@@ -1,5 +1,9 @@
 # CVPR Labs
-Hello! I'll be putting lab files here. Feel free to fork the repository.
+Hello! This is a repository for University of Surrey's CVPR labs.
+
+If you're a **student**, feel free to use this project for learning purposes and educational development. However, when submitting it as part of any academic work, you must give proper credit to the original author. Failing to do so may result in [academic penalties](https://www.surrey.ac.uk/office-student-complaints-appeals-and-regulation/academic-misconduct-and-appeals).
+
+If you're an **educator**, feel free to use it in your educational courses and tutorials. If you use it in course materials, a simple credit to the original author is appreciated.
 
 ## Setup
 To get started, you'll need to install the dependencies. I'm using [Poetry](https://python-poetry.org/) to manage the dependencies and [Pyenv](https://github.com/pyenv/pyenv) to manage the Python version.
