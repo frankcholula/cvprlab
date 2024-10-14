@@ -129,7 +129,6 @@ def main():
     DATASET_FOLDER = "MSRC_ObjCategImageDatabase_v2_local"
     DESCRIPTOR_FOLDER = "descriptors"
     st.title("Visual Search Engine 👀")
-    
     extractor = DescriptorExtractor(DATASET_FOLDER, DESCRIPTOR_FOLDER)
     extractor.extract()
     img2descriptors = extractor.get_image_descriptor_mapping()
