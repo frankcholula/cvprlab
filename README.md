@@ -1,9 +1,8 @@
 # CVPR Labs
-Hello! This is a repository for University of Surrey's CVPR labs.
+Hello! This is a repository for the University of Surrey's CVPR labs with some nice visualizations built with `streamlit` and `firebase`. 
 
-If you're a **student**, feel free to use this project for learning purposes and educational development. However, when submitting it as part of any academic work, you must give proper credit to the original author. Failing to do so may result in [academic penalties](https://www.surrey.ac.uk/office-student-complaints-appeals-and-regulation/academic-misconduct-and-appeals).
+If you are a **University of Surrey student**, you are welcome to use this project as a learning resource and reference for your coursework. A simple credit to the OC (wee! that's me, [Frank](https://frankcholula.notion.site/)) would be greatly appreciated. However, please note that submitting this work as your own academic assignment is not permitted and may lead to [academic misconduct penalties](https://www.surrey.ac.uk/office-student-complaints-appeals-and-regulation/academic-misconduct-and-appeals). Just make sure you're submitting your orignal work.
 
-If you're an **educator**, feel free to use it in your educational courses and tutorials. If you use it in course materials, a simple credit to the original author is appreciated.
 
 ## Setup
 To get started, you'll need to install the dependencies. I'm using [Poetry](https://python-poetry.org/) to manage the dependencies and [Pyenv](https://github.com/pyenv/pyenv) to manage the Python version.
