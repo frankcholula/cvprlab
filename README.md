@@ -1,5 +1,5 @@
 # CVPR Labs
-Hello! This is a repository for the University of Surrey's CVPR labs with some nice visualizations built with `streamlit` and `firebase`. 
+Hello! This is a repository for the University of Surrey's CVPR labs with some nice visualizations and interactive elements built with `streamlit` and `firebase`. 
 
 If you are a **University of Surrey student**, you are welcome to use this project as a learning resource and reference for your coursework. A simple credit to the OC (wee! that's me, [Frank](https://frankcholula.notion.site/)) would be greatly appreciated. However, please note that submitting this work as your own academic assignment is not permitted and may lead to [academic misconduct penalties](https://www.surrey.ac.uk/office-student-complaints-appeals-and-regulation/academic-misconduct-and-appeals). Just make sure you're submitting your orignal work.
 
