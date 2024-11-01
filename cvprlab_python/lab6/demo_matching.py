@@ -45,7 +45,7 @@ for i in range(0, len(matches), STEPSIZE):
     img2x, img2y = keypoints2[:, img2_idx] + [image2offset, 0]
 
     # Plot matched keypoints and lines between them
-    plt.plot([img1x, img2x], [img1y, img2y], 'r-')
+    plt.plot([img1x, img2x], [img1y, img2y], 'b-')
     plt.scatter([img1x, img2x], [img1y, img2y], c='yellow', marker='x')
 
 plt.axis('off')

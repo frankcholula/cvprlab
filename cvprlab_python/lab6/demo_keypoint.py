@@ -23,9 +23,6 @@ keypoints2, descr2 = sift.detectAndCompute(gimg2, None)
 keypoints1_coords = np.array([kp.pt for kp in keypoints1]).T
 keypoints2_coords = np.array([kp.pt for kp in keypoints2]).T
 
-# Convert descriptors to uint8 type
-descr1 = (descr1 * 512).astype(np.uint8)
-descr2 = (descr2 * 512).astype(np.uint8)
 
 # Harris corner detection
 thresh = 1000  # Number of top corners to keep
