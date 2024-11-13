@@ -36,7 +36,8 @@ class Extractors:
         Returns:
         numpy.ndarray: A feature vector containing the average B, G, and R values.
         """
-        B = np.mean(img[:, :, 0])  # Blue channel
-        G = np.mean(img[:, :, 1])  # Green channel
-        R = np.mean(img[:, :, 2])  # Red channel
+        img = img / 255.0  # normalize the image to [0, 1]
+        B = np.mean(img[:, :, 0])
+        G = np.mean(img[:, :, 1])
+        R = np.mean(img[:, :, 2])
         return np.array([R, G, B])

@@ -16,7 +16,7 @@ class DescriptorExtractor:
 
     def extract(self, extract_method=Extractors.extract_rgb):
         descriptor_paths = {
-            Extractors.extract_rgb: os.path.join(self.DESCRIPTOR_FOLDER, 'globalRGBhisto'),
+            Extractors.extract_rgb: os.path.join(self.DESCRIPTOR_FOLDER, 'rgb'),
             Extractors.extract_random: os.path.join(self.DESCRIPTOR_FOLDER, 'random')
         }
 
@@ -34,7 +34,7 @@ class DescriptorExtractor:
                 F = extract_method(img)        
                 np.save(fout, F)
 
-    def get_image_descriptor_mapping(self, descriptor_type='globalRGBhisto') -> Dict[str, np.ndarray]:
+    def get_image_descriptor_mapping(self, descriptor_type='rgb') -> Dict[str, np.ndarray]:
         descriptor_path = os.path.join(self.DESCRIPTOR_FOLDER, descriptor_type)
         img_to_descriptor = {}
         for filename in os.listdir(descriptor_path):
@@ -136,7 +136,7 @@ def main():
     image_files = [f for f in os.listdir(os.path.join(DATASET_FOLDER, 'Images')) if f.endswith('.bmp')]
     cols = st.columns([1.75,1.75,1])
     selected_image = cols[0].selectbox("Choose an Image...", image_files)
-    descriptor_method = cols[1].selectbox("Choose your Descriptor...", options=['globalRGBhisto', 'random'])
+    descriptor_method = cols[1].selectbox("Choose your Descriptor...", options=['rgb', 'random'])
     cols[2].markdown("<div style='width: 1px; height: 28px'></div>", unsafe_allow_html=True)
     if cols[2].button("I'm Feeling Lucky"):
         selected_image = random.choice(image_files)
