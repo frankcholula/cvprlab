@@ -22,7 +22,7 @@ from .visualization import (
     plot_epipolar_lines,
     plot_camera_setup,
     select_corresponding_points,
-    InteractiveEpipolarVisualizer,
+    InteractivePointSelector,
     HomographyVisualizer
 )
 
@@ -44,7 +44,7 @@ __all__ = [
     'plot_epipolar_lines',
     'plot_camera_setup',
     'select_corresponding_points',
-    'InteractiveEpipolarVisualizer',
+    'InteractivePointSelector',
     'HomographyVisualizer'
 ]
 

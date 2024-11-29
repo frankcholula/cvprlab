@@ -11,14 +11,16 @@ from typing import Tuple, Optional
 from utils.visualization import (
     select_corresponding_points,
     plot_epipolar_lines,
-    InteractiveEpipolarVisualizer
+    InteractivePointSelector
 )
 from utils.geometry import calculate_fundamental_matrix
 
 def load_image_pair() -> Tuple[np.ndarray, np.ndarray]:
     """Load the standard image pair used in exercises"""
-    img1 = cv2.imread('data/images/view1.jpg')
-    img2 = cv2.imread('data/images/view2.jpg')
+    import os
+    print(os.getcwd())
+    img1 = cv2.imread('data/images/sam_hp1.jpg')
+    img2 = cv2.imread('data/images/sam_hp2.jpg')
     
     if img1 is None or img2 is None:
         raise FileNotFoundError("Could not load test images")
@@ -109,7 +111,7 @@ def exercise3_visual_verification(
     plot_epipolar_lines(img1, img2, F, points_left, points_right)
     
     # Interactive visualization
-    visualizer = InteractiveEpipolarVisualizer(img1, img2, F)
+    visualizer = InteractivePointSelector(img1, img2, F)
     print("\nClick points in either image to see epipolar lines")
     print("Press 'q' to quit")
     visualizer.show()

@@ -3,11 +3,6 @@ main.py
 Main interface for CVPR Multiview Geometry Lab
 """
 
-import sys
-import os
-from pathlib import Path
-from typing import Optional
-
 from exercises.fundamental import (
     exercise1_fundamental_matrix,
     exercise2_epipolar_geometry,
