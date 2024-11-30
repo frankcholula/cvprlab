@@ -8,7 +8,6 @@ This module provides functions for:
 
 import numpy as np
 from typing import Tuple, List, Dict, Optional
-from pathlib import Path
 
 def load_camera_params(filename: str, num_cameras: Optional[int] = None) -> List[Dict]:
     """
@@ -26,48 +25,46 @@ def load_camera_params(filename: str, num_cameras: Optional[int] = None) -> List
         - image_size: (height, width)
     """
     cameras = []
-    
+
     try:
+
         with open(filename, 'r') as f:
+            print(f"file open")
+            lines = f.readlines()
+            i=0 
             # Read number of cameras
-            n_cameras = int(f.readline().split()[0])
+            n_cameras = int(lines[i].strip()[0])
             if num_cameras is not None:
                 n_cameras = min(n_cameras, num_cameras)
-            
-            for _ in range(n_cameras):
-                # Read image dimensions
-                h, w = map(int, f.readline().split()[:2])
-                
-                # Read camera matrix K components
-                fx = float(f.readline().strip())
-                fy = float(f.readline().strip())
-                cx = float(f.readline().strip())
-                cy = float(f.readline().strip())
-                
-                # Skip distortion coefficient
-                f.readline()
-                
-                # Create camera matrix K
-                K = np.array([
-                    [fx, 0, cx],
-                    [0, fy, cy],
-                    [0, 0, 1]
-                ])
-                
-                # Read rotation matrix R
-                R = np.zeros((3, 3))
-                for i in range(3):
-                    R[i] = np.array(list(map(float, f.readline().split())))
-                
-                # Read translation vector t
-                t = np.array(list(map(float, f.readline().split())))
-                
-                cameras.append({
+            i += 1
+        print("Opening files")
+        while i < len(lines):
+            # Read rotation matrix
+            print("init array" )
+
+            height, width = tuple(map(int, lines[i].strip().split()[1::2]))
+
+            print(f"Image size: {height, width }")
+            fx, fy, cx, cy = map(float, lines[i+1].strip().split())
+            K = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
+            R = np.zeros((3, 3))
+            for j in range(3):
+                print(f"Line {i+j}: {lines[i+j+3].strip().split()}" )
+                R[j] = [float(x) for x in lines[i+j+3].strip().split()]
+            print("init array done" )
+            # Read translation vector
+            T = np.array([float(x) for x in lines[i+6].strip().split()])
+            print("T is ", T)
+            # Read image size
+            i += 7
+            Camera =   {
                     'K': K,
                     'R': R,
-                    't': t,
-                    'image_size': (h, w)
-                })
+                    't': T,
+                    'image_size': (height, width)
+                }
+            cameras.append(Camera)
+            
         
         return cameras
         
