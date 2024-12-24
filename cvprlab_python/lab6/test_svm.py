@@ -75,3 +75,39 @@ if DIMENSION == 2:
     
     plt.tight_layout()
     plt.show()
+
+def plot_decision_boundary(ax, svm, X, y, title):
+    # Create mesh grid
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.02),
+                        np.arange(y_min, y_max, 0.02))
+    
+    # Get predictions for each point in the mesh
+    Z = svm.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    
+    # Plot decision boundary and data points
+    ax.contourf(xx, yy, Z, alpha=0.4)
+    for i in range(N_CLUSTERS):
+        mask = y == i + 1
+        ax.scatter(X[mask, 0], X[mask, 1], label=f'Cluster {i+1}')
+    ax.set_title(title)
+    ax.legend()
+
+# Modify the visualization code
+if DIMENSION == 2:
+    plt.figure(figsize=(15, 5))
+    plt.xlim(-RANGE, RANGE)
+    plt.ylim(-RANGE, RANGE)
+    
+    # Plot training data with decision boundaries
+    ax1 = plt.subplot(121)
+    plot_decision_boundary(ax1, svm, all_train_obs, all_train_class, 'Training Data with Decision Boundaries')
+    
+    # Plot test data with decision boundaries
+    ax2 = plt.subplot(122)
+    plot_decision_boundary(ax2, svm, all_test_obs, all_test_class, 'Test Data with Decision Boundaries')
+    
+    plt.tight_layout()
+    plt.show()
