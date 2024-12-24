@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.svm import SVC
 
 # Parameters
-SPLIT_FOR_TRAINING = 0.2
+SPLIT_FOR_TRAINING = 0.8
 RANGE = 100
 N_CLUSTERS = 3
 SPREAD = 5
