@@ -84,6 +84,13 @@ for i, point in enumerate(alldata.T):
 plt.show()
 
 # 7) Check the ground truth
-groundtruth = np.concatenate([np.ones(NPOINTS) * i for i in range(NCLUSTERS)])
-correct_matches = np.sum(groundtruth == classification)
-print(f'Number of correct classifications: {correct_matches} / {alldata.shape[1]}')
+groundtruth = np.ones(NPOINTS * NCLUSTERS)  # Array of same length as all points
+for i in range(NCLUSTERS):
+   groundtruth[i*NPOINTS:(i+1)*NPOINTS] = i  # Assign cluster number i to each group of points
+
+matches = np.array([[np.sum((groundtruth == i) & (classification == j)) 
+                   for j in range(NCLUSTERS)] 
+                  for i in range(NCLUSTERS)])
+
+correct_matches = matches.max(axis=1).sum()
+print(f'Number of correct classifications: {correct_matches} / {len(groundtruth)}')

@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load images
-IMAGE1 = 'testimages/wall1.jpg'
-IMAGE2 = 'testimages/wall2.jpg'
+IMAGE1 = '../testimages/wall1.jpg'
+IMAGE2 = '../testimages/wall2.jpg'
 
 img1 = cv2.imread(IMAGE1)
 img2 = cv2.imread(IMAGE2)
