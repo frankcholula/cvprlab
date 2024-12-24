@@ -94,3 +94,43 @@ matches = np.array([[np.sum((groundtruth == i) & (classification == j))
 
 correct_matches = matches.max(axis=1).sum()
 print(f'Number of correct classifications: {correct_matches} / {len(groundtruth)}')
+
+
+# improve kmeans by running it multiple times and use the sum of distances to assigned centers as best scores
+def run_multiple_kmeans(data, k, n_tries=10):
+   best_score = float('inf')
+   best_centers = None
+   best_labels = None
+   
+   for _ in range(n_tries):
+       # New random centers each try
+       init_centers = np.random.rand(k, data.shape[0]) * RANGE - (RANGE/2)
+       centers, labels = kmeans(data, k, init_centers)
+       
+       # Calculate score as sum of distances to assigned centers
+       distances = cdist(data.T, centers)
+       score = np.sum(np.min(distances, axis=1))
+       
+       if score < best_score:
+           best_score = score
+           best_centers = centers
+           best_labels = labels
+           
+   return best_centers, best_labels
+
+# Use it instead of single kmeans run:
+centres, labels = run_multiple_kmeans(alldata, NCLUSTERS)
+
+plt.figure()
+plt.title('Clustered data after multiple KMeans')
+plt.xlim(-RANGE, RANGE)
+plt.ylim(-RANGE, RANGE)
+
+colours = np.random.rand(NCLUSTERS, 3)
+for i, point in enumerate(alldata.T):
+    plt.scatter(point[0], point[1], color=colours[labels[i]], marker='x')
+
+# Plot the cluster centers
+plt.scatter(centres[:, 0], centres[:, 1], color='cyan', marker='*', s=200, label='Centres')
+plt.legend()
+plt.show()
