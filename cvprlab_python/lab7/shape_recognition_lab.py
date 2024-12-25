@@ -82,41 +82,46 @@ def fourier_descriptor_demo():
     print("\nExercise 2: Computing Fourier Descriptors")
     print("Draw a shape (left click to add points, right click to finish)")
     
-    try:
-        mask, polygon = draw_shape(200)
-        
-        # Step 1: Sample the polygon perimeter uniformly
-        # This ensures consistent descriptor computation
-        sampled_points = sample_polygon_perimeter(polygon, 100)
-        
-        # Step 2: Compute Fourier descriptors
-        # We use indices 2-17 to skip the DC component
-        descriptors = compute_fd_angular(sampled_points, np.arange(2, 18))
-        
-        # Step 3: Visualize results
-        plt.figure(figsize=(12, 5))
-        
-        # Plot the sampled shape
-        plt.subplot(1, 2, 1)
-        plt.plot(sampled_points[0, :], sampled_points[1, :], 'rx-')
-        plt.axis('equal')
-        plt.title("Your Shape\n(red points = uniform sampling)")
-        plt.xlabel("X")
-        plt.ylabel("Y")
-        
-        # Plot the Fourier descriptors
-        plt.subplot(1, 2, 2)
-        plt.bar(range(len(descriptors)), descriptors)
-        plt.title("Shape's Fourier Descriptors\n(frequency components)")
-        plt.xlabel("Descriptor Index")
-        plt.ylabel("Magnitude")
-        
-        plt.tight_layout()
-        plt.show()
-        
-    except Exception as e:
-        print(f"Error in Fourier descriptor demo: {str(e)}")
-        print("Please try again")
+    # try:
+    mask, polygon = draw_shape(200)
+    
+    # Step 1: Sample the polygon perimeter uniformly
+    # This ensures consistent descriptor computation
+    sampled_points = sample_polygon_perimeter(polygon, 100)
+    
+    # Step 2: Compute Fourier descriptors
+    # We use indices 2-17 to skip the DC component
+    descriptors = compute_fd_angular(sampled_points, np.arange(2, 18))
+    
+    # Step 3: Visualize results
+    plt.figure(figsize=(12, 5))
+    
+    # Plot the sampled shape
+    plt.subplot(1, 2, 1)
+    plt.plot(sampled_points[0, :], sampled_points[1, :], 'rx-')
+    plt.axis('equal')
+    plt.gca().invert_yaxis()
+    plt.xlim(0, 200)
+    plt.ylim(200, 0)
+
+    plt.title("Your Shape\n(red points = uniform sampling)")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+
+    
+    # Plot the Fourier descriptors
+    plt.subplot(1, 2, 2)
+    plt.bar(range(len(descriptors)), descriptors)
+    plt.title("Shape's Fourier Descriptors\n(frequency components)")
+    plt.xlabel("Descriptor Index")
+    plt.ylabel("Magnitude")
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # except Exception as e:
+    #     print(f"Error in Fourier descriptor demo: {str(e)}")
+    #     print("Please try again")
 
 #------------------------------------------------------------------------------
 # Exercise 5: Interactive Shape Recognition

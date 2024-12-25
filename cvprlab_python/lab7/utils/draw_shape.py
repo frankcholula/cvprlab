@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.path import Path
 
 def draw_shape(canvas_size):
     """
@@ -17,10 +18,9 @@ def draw_shape(canvas_size):
     ax.set_title('Click to draw a polygon (right click = last point)')
     
     # Create white canvas
-    canvas = np.ones((canvas_size, canvas_size, 3)) * 255
+    canvas = np.ones((canvas_size, canvas_size, 3))
     ax.imshow(canvas)
-    ax.set_aspect('equal')
-    
+    ax.set_aspect('equal')    
     # Initialize points list
     pts = []
     
@@ -61,7 +61,7 @@ def draw_shape(canvas_size):
     # Create binary mask
     mask = np.zeros((canvas_size, canvas_size), dtype=bool)
     y, x = np.mgrid[:canvas_size, :canvas_size]
-    points_path = plt.Path(points.T)
+    points_path = Path(points.T)
     mask = points_path.contains_points(np.vstack((x.flatten(), y.flatten())).T).reshape(canvas_size, canvas_size)
     
     return mask, points
