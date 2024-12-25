@@ -22,9 +22,9 @@ Requirements:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
 import cv2
 import os
+import traceback
 
 # Import all required functions from utils package
 from utils import (
