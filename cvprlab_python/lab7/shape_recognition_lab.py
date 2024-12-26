@@ -32,6 +32,7 @@ from utils import (
     chaincode,
     chaincode_rasterize,
     sample_polygon_perimeter,
+    compute_fd,
     compute_fd_angular,
     eigen_build,
     eigen_deflate,
@@ -91,7 +92,8 @@ def fourier_descriptor_demo():
         
         # Step 2: Compute Fourier descriptors
         # We use indices 2-17 to skip the DC component
-        descriptors = compute_fd_angular(sampled_points, np.arange(2, 18))
+        # descriptors = compute_fd_angular(sampled_points, np.arange(2, 18))
+        descriptors = compute_fd(sampled_points, np.arange(0, 16))
         
         # Step 3: Visualize results
         plt.figure(figsize=(12, 5))

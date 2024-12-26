@@ -18,7 +18,7 @@ from .draw_shape import draw_shape
 from .chaincode import chaincode
 from .chaincode_rasterize import chaincode_rasterize
 from .sample_polygon_perimeter import sample_polygon_perimeter
-from .fourier_descriptors import compute_fd_angular
+from .fourier_descriptors import compute_fd_angular, compute_fd
 from .eigenmodel import (
     EigenModel,
     eigen_build,
