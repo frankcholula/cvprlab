@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt 
+from matplotlib.path import Path
 from .chaincode import make_move 
 
 def chaincode_rasterize(cc, canvas_size=None, startpoint=None):
@@ -43,7 +44,7 @@ def chaincode_rasterize(cc, canvas_size=None, startpoint=None):
     
     # Create binary mask
     y, x = np.mgrid[:canvas.shape[0], :canvas.shape[1]]
-    points_path = plt.Path(pts.T)
+    points_path = Path(pts.T)
     mask = points_path.contains_points(np.vstack((x.flatten(), y.flatten())).T).reshape(canvas.shape)
     
     return mask, pts

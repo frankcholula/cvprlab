@@ -209,7 +209,7 @@ def shape_demo_interactive(path='shapeimages'):
         for cat, prob in zip(categories, probabilities):
             print(f"{cat}: {prob:.3f}")
         print(f"\nBest match: {categories[np.argmax(probabilities)]}")
-        
+
     except Exception as e:
         print(f"Error in shape recognition: {str(e)}")
         print("Please check the path to your training images and try again")
