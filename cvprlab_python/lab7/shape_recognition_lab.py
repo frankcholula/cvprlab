@@ -153,6 +153,7 @@ def shape_demo_interactive(path='shapeimages'):
         # Step 1: Load training data
         print("Loading training shapes...")
         samples = {cat: [] for cat in categories}
+
         for cat in categories:
             for n in range(1, SAMPLES + 1):
                 fname = os.path.join(path, f"{cat}{n:04d}.bmp")
@@ -258,7 +259,8 @@ def shape_demo_batch(path='shapeimages', test_proportion=0.25, num_trials=10):
                 cc, start = chaincode(mask)
                 mask, polyg = chaincode_rasterize(cc)
                 polyg = sample_polygon_perimeter(polyg, 100)
-                fd = compute_fd_angular(polyg, np.arange(2, FDMAX + 2))
+                # fd = compute_fd_angular(polyg, np.arange(2, FDMAX + 2))
+                fd = compute_fd(polyg, np.arange(2, FDMAX+2))
                 all_data[cat].append(fd)
         
         # Run multiple trials
