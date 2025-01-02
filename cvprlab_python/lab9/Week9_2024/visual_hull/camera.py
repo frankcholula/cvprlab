@@ -25,22 +25,9 @@ def load_camera():
     try:
         with open('mvdata/calibration.txt', 'r') as f:
             lines = f.readlines()
-
-        num_cameras, version = map(int, lines[0].strip().split())
-
-        i = 1
-        for _ in range(num_cameras):
-            # Read image size (assuming the first four values are related to image size)
-            imgsize = tuple(map(int, lines[i].strip().split()[1:3]))
-            i += 1
             
-            # Read intrinsic parameters
-            fx, fy, cx, cy = map(float, lines[i].strip().split())
-            i += 1
-            
-            # Skip distortion coefficient line
-            i += 1
-            
+        i = 0
+        while i < len(lines):
             # Read rotation matrix
             R = np.zeros((3, 3))
             for j in range(3):
@@ -49,8 +36,17 @@ def load_camera():
             
             # Read translation vector
             T = np.array([float(x) for x in lines[i].strip().split()])
-            if T.shape != (3,):
-                raise ValueError(f"Invalid shape for translation vector: {T.shape}")
+            i += 1
+            
+            # Read intrinsic parameters
+            fx = float(lines[i].strip())
+            fy = float(lines[i+1].strip())
+            cx = float(lines[i+2].strip())
+            cy = float(lines[i+3].strip())
+            i += 4
+            
+            # Read image size
+            imgsize = tuple(map(int, lines[i].strip().split()))
             i += 1
             
             cameras.append(Camera(R, T, fx, fy, cx, cy, imgsize))

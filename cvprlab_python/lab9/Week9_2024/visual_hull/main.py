@@ -2,9 +2,9 @@
 Main script for the Visual Hull lab.
 """
 
-from camera import load_camera
-from visualization import plot_cameras
-from reconstruction import generate_masks, reconstruct_visual_hull
+from .camera import load_camera
+from .visualization import plot_cameras
+from .reconstruction import generate_masks, reconstruct_visual_hull
 
 def main():
     """Main function implementing the lab workflow"""
@@ -31,7 +31,7 @@ def main():
         print("Visualizing camera positions...")
         plot_cameras(cameras)
         
-        # # Ex2: Generate masks
+        # Ex2: Generate masks
         print("\nEx2: Generating masks from images...")
         masks = generate_masks(num_cameras)
         
