@@ -96,6 +96,8 @@ def reconstruct_visual_hull(cameras, masks, bounds, steps, threshold=5):
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
+    ax.set_ylim(-2, 6)
+    ax.set_xlim(-2, 6)
     ax.set_title('Visual Hull Reconstruction')
     plt.show()
     
