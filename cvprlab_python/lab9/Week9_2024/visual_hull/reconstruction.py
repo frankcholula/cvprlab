@@ -5,7 +5,7 @@ Visual hull reconstruction functions.
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from visualization import display_masks
 import os
 
 def generate_masks(num_cameras=8, threshold=0.38):
@@ -36,7 +36,6 @@ def generate_masks(num_cameras=8, threshold=0.38):
         masks.append(mask)
         
         # Display results using visualization module
-        from .visualization import display_masks
         display_masks(img, mask, cam)
     
     return masks
