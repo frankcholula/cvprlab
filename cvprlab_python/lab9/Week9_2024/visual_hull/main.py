@@ -31,13 +31,13 @@ def main():
         print("Visualizing camera positions...")
         plot_cameras(cameras)
         
-        # Ex2: Generate masks
-        print("\nEx2: Generating masks from images...")
-        masks = generate_masks(num_cameras)
+        # # Ex2: Generate masks
+        # print("\nEx2: Generating masks from images...")
+        # masks = generate_masks(num_cameras)
         
-        # Ex3: Reconstruct visual hull
-        print("\nEx3: Reconstructing visual hull...")
-        visual_hull = reconstruct_visual_hull(cameras, masks, bounds, steps, threshold)
+        # # Ex3: Reconstruct visual hull
+        # print("\nEx3: Reconstructing visual hull...")
+        # visual_hull = reconstruct_visual_hull(cameras, masks, bounds, steps, threshold)
         
     except Exception as e:
         print(f"Error in lab execution: {str(e)}")
