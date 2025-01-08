@@ -32,7 +32,7 @@ G2 = np.array([
 Q = np.vstack([t**3, t**2, t, np.ones_like(t)])
 
 ```    
-![exercise_1_resut](image.png)
+![exercise1_resut](exercise1_result.png)
 
 These M matrix numbers aree derived from solving a system of constraints that we want our Hermite curve to satisfy. Here are the key constraints:
 
