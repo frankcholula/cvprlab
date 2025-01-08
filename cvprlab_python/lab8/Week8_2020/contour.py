@@ -356,7 +356,7 @@ def exercise5():
         print(f"Error in hand snake demo: {str(e)}")
 
 
-def main():
+if __name__ == '__main__':
     print("\nContour Lab")
     print("===========")
     print("\nAvailable exercises:")
