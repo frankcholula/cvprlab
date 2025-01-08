@@ -135,6 +135,8 @@ def exercise2():
     plt.title('Bezier Curve Demo\nClick to place 4 control points')
     plt.grid(True)
     plt.axis('equal')
+    plt.xlim (-10, 10)
+    plt.ylim(-10, 10)
     
     # Connect click event
     plt.connect('button_press_event', on_click)
