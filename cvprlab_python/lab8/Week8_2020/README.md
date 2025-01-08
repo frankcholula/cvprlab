@@ -1,21 +1,19 @@
 # Exercise 1 Hermite Curve
 ```bash
 P = GMQ
-G (Geometric Matrix): This is the transformation matrix that defines what kind of geometric hcange we want to apply to the curve.
-M (Modeling Matrix): This defines how we want to model our curve.
-Q (Control Points): This is the matrix that contains the control points of the curve.
 ```
+- G (Geometry Matrix/ Cnotrol Points): This contains the control points and tangents of the curve.
+- M (Modeling Matrix): This defines how we want to model our curve (Bezier, Hermite, B-Spline, etc.)
+- Q (Parameter Vector): This contains the powers of t.
+
+Think of it like 
+- G tells us "where" (your control points)
+- M tells us "how" (the Bézier recipe)
+- Q tells us "when" (parameter t from 0 to 1)
+- The result P tells us the final position at each t
+
 We see the blue segment starts at (0,0) and end at (9,0) with a positive tangent in the beginning and end with a dip. The red segment starts at (9,0) and ends at (18,0) with a negative tangent in the beginning and end with a rise.
 ```bash
-
-# This is the Hermite basis matrix that defines how the curve behaves. It's used to blend the control points and tangents.
-M = np.array([
-    [2, -3, 0, 1],    # Hermite basis matrix
-    [-2, 3, 0, 0],
-    [1, -2, 1, 0],
-    [1, -1, 0, 0]
-])
-
 # Points and tangents for first curve
 G1 = np.array([
     [0, 9, 0, 0],     # x coordinates and tangents
@@ -26,6 +24,14 @@ G1 = np.array([
 G2 = np.array([
     [9, 18, 0, 0],
     [0, 0, -1, 1]
+])
+
+# This is the Hermite basis matrix that defines how the curve behaves. It's used to blend the control points and tangents.
+M = np.array([
+    [2, -3, 0, 1],    # Hermite basis matrix
+    [-2, 3, 0, 0],
+    [1, -2, 1, 0],
+    [1, -1, 0, 0]
 ])
 
 # Creates powers of t: [t³, t², t, 1]
