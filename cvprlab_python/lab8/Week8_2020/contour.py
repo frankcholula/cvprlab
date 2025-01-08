@@ -300,7 +300,7 @@ def exercise5():
     """
     try:
         # Load and prepare hand image
-        img = cv2.imread('data/hand.jpg', cv2.IMREAD_GRAYSCALE)
+        img = cv2.imread('data/bluehand.jpg', cv2.IMREAD_GRAYSCALE)
         if img is None:
             raise ValueError("Could not load hand image")
         
