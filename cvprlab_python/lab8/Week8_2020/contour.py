@@ -188,6 +188,8 @@ def exercise3():
                 
                 # Draw curves
                 plt.clf()
+                plt.xlim(-10, 10)
+                plt.ylim(-10, 10)
                 plt.title('Spline Comparison')
                 plt.plot([p[0] for p in points], [p[1] for p in points], 'rx')
                 
@@ -209,6 +211,8 @@ def exercise3():
                 plt.draw()
     
     plt.figure(figsize=(8, 8))
+    plt.xlim(-10, 10)
+    plt.ylim(-10, 10)
     plt.title('Click to add control points (minimum 4)')
     plt.grid(True)
     plt.connect('button_press_event', on_click)
