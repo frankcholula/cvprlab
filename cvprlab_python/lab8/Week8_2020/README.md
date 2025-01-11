@@ -12,8 +12,9 @@ Think of it like
 - Q tells us "when" (parameter t from 0 to 1)
 - The result P tells us the final position at each t
 
-We see the blue segment starts at (0,0) and end at (9,0) with a positive tangent in the beginning and end with a dip. The red segment starts at (9,0) and ends at (18,0) with a negative tangent in the beginning and end with a rise.
 ![exercise1_resut](exercise1_result.png)
+We see the blue segment starts at (0,0) and end at (9,0) with a positive tangent in the beginning and end with a dip. The red segment starts at (9,0) and ends at (18,0) with a negative tangent in the beginning and end with a rise.
+
 ```bash
 # Points and tangents for first curve
 G1 = np.array([
