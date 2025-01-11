@@ -26,53 +26,42 @@ def load_camera_params(filename: str, num_cameras: Optional[int] = None) -> List
         - image_size: (height, width)
     """
     cameras = []
-    
     try:
-        with open(filename, 'r') as f:
-            # Read number of cameras
-            n_cameras = int(f.readline().split()[0])
-            if num_cameras is not None:
-                n_cameras = min(n_cameras, num_cameras)
-            
-            for _ in range(n_cameras):
-                # Read image dimensions
-                h, w = map(int, f.readline().split()[:2])
-                
-                # Read camera matrix K components
-                fx = float(f.readline().strip())
-                fy = float(f.readline().strip())
-                cx = float(f.readline().strip())
-                cy = float(f.readline().strip())
-                
-                # Skip distortion coefficient
-                f.readline()
-                
-                # Create camera matrix K
-                K = np.array([
+        with open(filename, "r") as f:
+            lines = [line.strip() for line in f.readlines()]
+        num_cams = num_cameras or int(lines[0].split()[0])
+        i = 1
+
+        for _ in range(num_cams):
+            # Each camera takes exactly 7 lines
+            dims = [int(x) for x in lines[i].split()]
+            imgsize = (dims[1], dims[3])
+            intrinsics = [float(x) for x in lines[i + 1].split()]
+            fx, fy, cx, cy = intrinsics
+            R = np.zeros((3, 3))
+            for j in range(3):
+                R[j] = [float(x) for x in lines[i + 3 + j].split()]
+
+            T = np.array([float(x) for x in lines[i + 6].split()])
+
+            K = np.array([
                     [fx, 0, cx],
                     [0, fy, cy],
                     [0, 0, 1]
                 ])
-                
-                # Read rotation matrix R
-                R = np.zeros((3, 3))
-                for i in range(3):
-                    R[i] = np.array(list(map(float, f.readline().split())))
-                
-                # Read translation vector t
-                t = np.array(list(map(float, f.readline().split())))
-                
-                cameras.append({
+            cameras.append({
                     'K': K,
                     'R': R,
-                    't': t,
-                    'image_size': (h, w)
+                    't': T,
+                    'image_size': (dims[1] , dims[3])
                 })
-        
+
+            i += 7
         return cameras
-        
     except Exception as e:
-        raise IOError(f"Error loading camera parameters: {str(e)}")
+        print(f"Error loading calibration file: {str(e)}")
+        return None
+
 
 def get_light_ray(R: np.ndarray, 
                   t: np.ndarray, 
