@@ -2,7 +2,7 @@
 ```bash
 P = GMQ
 ```
-- G (Geometry Matrix/ Cnotrol Points): This contains the control points and tangents of the curve.
+- G (Geometry Matrix/ Control Points): This contains the control points and tangents of the curve.
 - M (Modeling Matrix): This defines how we want to model our curve (Bezier, Hermite, B-Spline, etc.)
 - Q (Parameter Vector): This contains the powers of t.
 
@@ -13,6 +13,7 @@ Think of it like
 - The result P tells us the final position at each t
 
 We see the blue segment starts at (0,0) and end at (9,0) with a positive tangent in the beginning and end with a dip. The red segment starts at (9,0) and ends at (18,0) with a negative tangent in the beginning and end with a rise.
+![exercise1_resut](exercise1_result.png)
 ```bash
 # Points and tangents for first curve
 G1 = np.array([
@@ -38,7 +39,6 @@ M = np.array([
 Q = np.vstack([t**3, t**2, t, np.ones_like(t)])
 
 ```    
-![exercise1_resut](exercise1_result.png)
 
 These M matrix numbers aree derived from solving a system of constraints that we want our Hermite curve to satisfy. Here are the key constraints:
 
