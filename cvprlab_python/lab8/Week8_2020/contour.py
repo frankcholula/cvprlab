@@ -236,7 +236,9 @@ def exercise4():
         field = cv2.imread('data/snakefield_synthetic.bmp', cv2.IMREAD_GRAYSCALE)
         if field is None:
             raise ValueError("Could not load synthetic field image")
-        field = field.astype(float) / 255.0
+        
+        # invert the field as the programe works with white edges
+        inv_field = (255-field.astype(float)) / 255.0
         
         # Initialize snake
         t = np.linspace(0, 2*np.pi, 90)
@@ -249,20 +251,20 @@ def exercise4():
         
         # Parameters (can be modified to see effects)
         alpha = 1.0  # Continuity weight
-        beta = 1.1   # Smoothness weight
+        beta = 0.7   # Smoothness weight
         gamma = 1.2  # Edge weight
         iterations = 100
         
-        # Optimize snake
+        # Optimize snake (detecting white edges as inverted)
         current_points = snake_points.copy()
         for _ in range(iterations):
             for i in range(current_points.shape[1]):
                 x, y = current_points[:, i].astype(int)
-                if 0 <= x < field.shape[1] and 0 <= y < field.shape[0]:
+                if 0 <= x < inv_field.shape[1] and 0 <= y < inv_field.shape[0]:
                     # Sample neighborhood
-                    neighborhood = field[
-                        max(0, y-1):min(field.shape[0], y+2),
-                        max(0, x-1):min(field.shape[1], x+2)
+                    neighborhood = inv_field[
+                        max(0, y-1):min(inv_field.shape[0], y+2),
+                        max(0, x-1):min(inv_field.shape[1], x+2)
                     ]
                     if neighborhood.size > 0:
                         min_y, min_x = np.unravel_index(
@@ -276,6 +278,7 @@ def exercise4():
         
         # Display results
         plt.figure(figsize=(10, 10))
+        # Display non inverted field for clarity
         plt.imshow(field, cmap='gray')
         plt.plot(snake_points[0, :], snake_points[1, :], 'r--', label='Initial')
         plt.plot(current_points[0, :], current_points[1, :], 'g-', label='Final')
@@ -304,35 +307,44 @@ def exercise5():
         if img is None:
             raise ValueError("Could not load hand image")
         
-        # Create edge map
-        edges = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)**2
-        edges += cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)**2
-        edges = normalize_image(np.sqrt(edges))
+        # Load synthetic field
+        field = cv2.imread('data/snakefield_real.bmp', cv2.IMREAD_GRAYSCALE)
+        if field is None:
+            raise ValueError("Could not load real field image")
         
+        # invert the field as the programe work with white edges
+        inv_field = (255-field.astype(float)) / 255.0
+
+        # Create edge map
+        edges = cv2.Sobel(field, cv2.CV_64F, 1, 0, ksize=3)**2
+        edges += cv2.Sobel(field, cv2.CV_64F, 0, 1, ksize=3)**2
+        edges = normalize_image(np.sqrt(edges))
+
         # Initialize snake with more points for hand
-        t = np.linspace(0, 2*np.pi, 150)  # More points for complex shape
+        t = np.linspace(0, 2*np.pi, 1000)  # More points for complex shape
         center = np.array([img.shape[1]/2, img.shape[0]/2])
-        radius = min(img.shape) / 3
+        radius = min(field.shape) / 2.2
         snake_points = np.vstack([
             center[0] + radius * np.cos(t),
             center[1] + radius * np.sin(t)
         ])
+
+        # Parameters (can be modified to see effects)
+        alpha = 1.0  # Continuity weight
+        beta = 0.5  # Smoothness weight
+        gamma = 1.0  # Edge weight
+        iterations = 90
         
-        # Modified parameters for hand image
-        alpha = 0.5  # Lower continuity for better detail
-        beta = 0.5   # Lower smoothness for better detail
-        gamma = 1.8  # Higher edge attraction
-        iterations = 100
         
         # Optimize snake
         current_points = snake_points.copy()
         for _ in range(iterations):
             for i in range(current_points.shape[1]):
                 x, y = current_points[:, i].astype(int)
-                if 0 <= x < img.shape[1] and 0 <= y < img.shape[0]:
-                    neighborhood = edges[
-                        max(0, y-1):min(img.shape[0], y+2),
-                        max(0, x-1):min(img.shape[1], x+2)
+                if 0 <= x < inv_field.shape[1] and 0 <= y < inv_field.shape[0]:
+                    neighborhood = inv_field[
+                        max(0, y-1):min(inv_field.shape[0], y+2),
+                        max(0, x-1):min(inv_field.shape[1], x+2)
                     ]
                     if neighborhood.size > 0:
                         min_y, min_x = np.unravel_index(
@@ -351,6 +363,7 @@ def exercise5():
         plt.title('Original Image')
         
         plt.subplot(122)
+         # Display non inverted edges field for clarity
         plt.imshow(edges, cmap='gray')
         plt.plot(snake_points[0, :], snake_points[1, :], 'r--', label='Initial')
         plt.plot(current_points[0, :], current_points[1, :], 'g-', label='Final')
